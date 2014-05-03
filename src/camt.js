@@ -8,10 +8,8 @@
         csv = require('csv'),
         _ = require('lodash');
 
-
-    var args = process.argv.slice(2);
-
-    var base = __dirname.replace('/src', '/data/'),
+    var base_target = __dirname.replace('/src', '/data-target/'),
+        base_source = __dirname.replace('/src', '/data-source/'),
         main = {};
 
     //create path when not existing
@@ -51,7 +49,7 @@
             var yeardata = [], tmp;
 
             Object.keys(hashed[year]).forEach(function (key) {
-                var path = pt.join(base, account, year),
+                var path = pt.join(base_target, account, year),
                     file;
 
                 //create path if needed
@@ -81,16 +79,16 @@
                 //write to file
                 yeardata = yeardata.concat(hashed[year][key]);
 
-                fs.writeFileSync(path + key + '.json', JSON.stringify(hashed[year][key], undefined, 2));
+                fs.writeFileSync(path + pt.sep + key + '.json', JSON.stringify(hashed[year][key], undefined, 2));
             });
             //sum year
-            tmp = pt.join(base + account) + pt.sep + (year + '.json');
+            tmp = pt.join(base_target + account) + pt.sep + (year + '.json');
             main.accounts[account] = main.accounts[account].concat(tmp);
             fs.writeFileSync(tmp, JSON.stringify(yeardata, undefined, 2));
         });
 
         //TODO:
-        fs.writeFileSync(base + 'data.json', JSON.stringify(main, undefined, 2));
+        fs.writeFileSync(base_target + 'data.json', JSON.stringify(main, undefined, 2));
     };
 
     function parseCAMT (file, callback) {
@@ -126,11 +124,14 @@
             });
     }
 
+    ensure(base_source);
+    ensure(base_target);
+
     //all csv-camt files
-    var files = fs.readdirSync(base + '/source');
+    var files = fs.readdirSync(base_source);
     files.forEach(function (file) {
         if (file.split('.')[1] === 'csv')
-            parseCAMT(base + '/source/' + file, hash);
+            parseCAMT(base_source + file, hash);
     });
 
 
