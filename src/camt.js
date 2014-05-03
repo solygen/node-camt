@@ -27,7 +27,7 @@
     var hash = function (data) {
         var hashed = {},
             lines = data.rows,
-            account = data.account;
+            account = data.account || 'unknown';
 
         main.columns = data.columns;
         main.accounts = main.accounts || {};
