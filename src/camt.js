@@ -11,7 +11,7 @@
 
     var args = process.argv.slice(2);
 
-    var base = __dirname.replace('/src', '/test/'),
+    var base = __dirname.replace('/src', '/data/'),
         main = {};
 
     //create path when not existing
