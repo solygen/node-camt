@@ -3,6 +3,9 @@ node-camt
 
 ``parse csv-camt files and save data as json``
 
+###Dependencies
+![dependencies](https://david-dm.org/solygen/node-camt.svg)
+
 ###Usage
 put your csv-camt files into
 
